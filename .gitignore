@@ -1,0 +1,11 @@
+#ignore apple files
+.DS_store
+
+#ignore csv files
+*.csv
+
+#ignore python chechpoints
+.ipynb_checkpoints
+
+#ignore pdf
+*.pdf
