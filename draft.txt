@@ -1,36 +1,36 @@
 -- Create Roles Table
-CREATE TABLE Roles (
+CREATE TABLE 2325_Roles (
     role_id SERIAL PRIMARY KEY,
     role_type VARCHAR(255) NOT NULL
 );
 
--- Create OffshoreEntities Table
-CREATE TABLE OffshoreEntities (
+-- Create Entities Table
+CREATE TABLE 2325_Entities (
     entity_node_id SERIAL PRIMARY KEY,
-    name VARCHAR(255) NOT NULL,
-    jurisdiction VARCHAR(255),
-    jurisdiction_description VARCHAR(255),
-    country_codes VARCHAR(255),
-    countries VARCHAR(255),
-    incorporation_date VARCHAR(255),
-    inactivation_date VARCHAR(255),
-    struck_off_date VARCHAR(255),
-    closed_date VARCHAR(255),
-    ibcRUC VARCHAR(255),
-    status VARCHAR(255),
-    company_type VARCHAR(255),
-    service_provider VARCHAR(255),
-    sourceID VARCHAR(255),
-    valid_until VARCHAR(255),
-    note VARCHAR(255)
+    Name VARCHAR(255) NOT NULL,
+    Jurisdiction VARCHAR(255),
+    JurisdictionDescription VARCHAR(255),
+    CountryCode VARCHAR(3),
+    CountryName VARCHAR(100),
+    IncorporationDate DATE,
+    InactivationDate DATE,
+    Struck_off_date DATE,
+    ClosedDate DATE,
+    IbcRUC VARCHAR(255),
+    Status VARCHAR(255),
+    CompanyType VARCHAR(255),
+    ServiceProvider VARCHAR(255),
+    SourceID VARCHAR(255),
+    ValidUntil VARCHAR(255),
+    Note VARCHAR(255)
 );
 
 -- Create Officers Table
-CREATE TABLE Officers (
+CREATE TABLE 2325_Officers (
     officer_node_id SERIAL PRIMARY KEY,
     Name VARCHAR(255) NOT NULL,
     CountryCode VARCHAR(3),
-    CountryName VARCHAR(255),
+    CountryName VARCHAR(100),
     SourceID VARCHAR(255),
     ValidUntil VARCHAR(255),
     Note VARCHAR(255)
