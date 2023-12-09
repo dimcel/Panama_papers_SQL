@@ -1,50 +1,50 @@
 -- Create Roles Table
-CREATE TABLE Roles_2325 (
-    RoleId SERIAL PRIMARY KEY,
-    RoleType VARCHAR(255) NOT NULL
+CREATE TABLE roles_2325 (
+    role_id SERIAL PRIMARY KEY,
+    role_type VARCHAR(255) NOT NULL
 );
 
 -- Create Entities Table
-CREATE TABLE Entities_2325 (
-    EntityId SERIAL PRIMARY KEY,
-    Name VARCHAR(255) NOT NULL,
-    Jurisdiction VARCHAR(255),
-    JurisdictionDescription VARCHAR(255),
-    CountryCode VARCHAR(3),
-    CountryName VARCHAR(100),
-    IncorporationDate DATE,
-    InactivationDate DATE,
-    StruckOffDate DATE,
-    ClosedDate DATE,
-    IbcRUC VARCHAR(255),
-    Status VARCHAR(255),
-    CompanyType VARCHAR(255),
-    ServiceProvider VARCHAR(255),
-    SourceID VARCHAR(255),
-    ValidUntil VARCHAR(255),
-    Note VARCHAR(255)
+CREATE TABLE entities_2325 (
+    entity_id SERIAL PRIMARY KEY,
+    name VARCHAR(255) NOT NULL,
+    jurisdiction VARCHAR(255),
+    jurisdiction_description VARCHAR(255),
+    country_code VARCHAR(3),
+    country_name VARCHAR(100),
+    incorporation_date DATE,
+    inactivation_date DATE,
+    struck_off_date DATE,
+    closed_date DATE,
+    ibc_ruc VARCHAR(255),
+    status VARCHAR(255),
+    company_type VARCHAR(255),
+    service_provider VARCHAR(255),
+    source_id VARCHAR(255),
+    valid_until VARCHAR(255),
+    note VARCHAR(255)
 );
 
 -- Create Officers Table
-CREATE TABLE Officers_2325 (
-    OfficerId SERIAL PRIMARY KEY,
-    Name VARCHAR(255) NOT NULL,
-    CountryCode VARCHAR(3),
-    CountryName VARCHAR(100),
-    SourceID VARCHAR(255),
-    ValidUntil VARCHAR(255),
-    Note VARCHAR(255)
+CREATE TABLE officers_2325 (
+    officer_id SERIAL PRIMARY KEY,
+    name VARCHAR(255) NOT NULL,
+    country_code VARCHAR(3),
+    country_name VARCHAR(100),
+    source_id VARCHAR(255),
+    valid_until VARCHAR(255),
+    note VARCHAR(255)
 );
 
 -- Create Intermediaries Table
-CREATE TABLE Intermediaries_2325 (
+CREATE TABLE intermediaries_2325 (
     intermediary_id SERIAL PRIMARY KEY,
     node_id INTEGER UNIQUE NOT NULL,
     -- Other attributes (nullable as needed)
 );
 
 -- Create Addresses Table
-CREATE TABLE Addresses_2325 (
+CREATE TABLE addresses_2325 (
     address_id SERIAL PRIMARY KEY,
     node_id INTEGER UNIQUE NOT NULL,
     name VARCHAR(255), -- Nullable
@@ -52,11 +52,11 @@ CREATE TABLE Addresses_2325 (
 );
 
 -- Create RolesOfficer Table (Many-to-Many Relationship)
-CREATE TABLE RolesOfficer_2325 (
+CREATE TABLE roles_officer_2325 (
     officer_role_id SERIAL PRIMARY KEY,
-    officer_id INTEGER REFERENCES Officers(officer_id),
-    offshore_entity_id INTEGER REFERENCES OffshoreEntities(offshore_entity_id),
-    role_id INTEGER REFERENCES Roles(role_id)
+    officer_id INTEGER REFERENCES officers_2325(officer_id),
+    entity_id INTEGER REFERENCES entities_2325(entity_id),
+    role_id INTEGER REFERENCES roles_2325(role_id)
 );
 
 -- Create IntermediaryOffshoreEntities Table (Many-to-Many Relationship)
