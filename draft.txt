@@ -6,19 +6,34 @@ CREATE TABLE Roles (
 
 -- Create OffshoreEntities Table
 CREATE TABLE OffshoreEntities (
-    offshore_entity_id SERIAL PRIMARY KEY,
-    node_id INTEGER UNIQUE NOT NULL
+    entity_node_id SERIAL PRIMARY KEY,
+    name VARCHAR(255) NOT NULL,
+    jurisdiction VARCHAR(255),
+    jurisdiction_description VARCHAR(255),
+    country_codes VARCHAR(255),
+    countries VARCHAR(255),
+    incorporation_date VARCHAR(255),
+    inactivation_date VARCHAR(255),
+    struck_off_date VARCHAR(255),
+    closed_date VARCHAR(255),
+    ibcRUC VARCHAR(255),
+    status VARCHAR(255),
+    company_type VARCHAR(255),
+    service_provider VARCHAR(255),
+    sourceID VARCHAR(255),
+    valid_until VARCHAR(255),
+    note VARCHAR(255)
 );
 
 -- Create Officers Table
 CREATE TABLE Officers (
-    officer_id SERIAL PRIMARY KEY,
-    node_id INTEGER UNIQUE NOT NULL,
-    CountryCode VARCHAR(3) NOT NULL,
-    CountryName VARCHAR(255) NOT NULL,
-    SourceID VARCHAR(255) NULL,
-    ValidUntil VARCHAR(255) NULL,
-    Note VARCHAR(255) NULL 
+    officer_node_id SERIAL PRIMARY KEY,
+    Name VARCHAR(255) NOT NULL,
+    CountryCode VARCHAR(3),
+    CountryName VARCHAR(255),
+    SourceID VARCHAR(255),
+    ValidUntil VARCHAR(255),
+    Note VARCHAR(255)
 );
 
 -- Create Intermediaries Table

@@ -1,0 +1,3 @@
+# unique of this is the ROLE table
+roles_table = edges.loc[edges['TYPE'] == 'officer_of']['link'].unique()
+sorted(roles_table)
