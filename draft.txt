@@ -1,12 +1,12 @@
 -- Create Roles Table
-CREATE TABLE 2325_Roles (
-    role_id SERIAL PRIMARY KEY,
-    role_type VARCHAR(255) NOT NULL
+CREATE TABLE Roles_2325 (
+    RoleId SERIAL PRIMARY KEY,
+    RoleType VARCHAR(255) NOT NULL
 );
 
 -- Create Entities Table
-CREATE TABLE 2325_Entities (
-    entity_node_id SERIAL PRIMARY KEY,
+CREATE TABLE Entities_2325 (
+    EntityId SERIAL PRIMARY KEY,
     Name VARCHAR(255) NOT NULL,
     Jurisdiction VARCHAR(255),
     JurisdictionDescription VARCHAR(255),
@@ -14,7 +14,7 @@ CREATE TABLE 2325_Entities (
     CountryName VARCHAR(100),
     IncorporationDate DATE,
     InactivationDate DATE,
-    Struck_off_date DATE,
+    StruckOffDate DATE,
     ClosedDate DATE,
     IbcRUC VARCHAR(255),
     Status VARCHAR(255),
@@ -26,8 +26,8 @@ CREATE TABLE 2325_Entities (
 );
 
 -- Create Officers Table
-CREATE TABLE 2325_Officers (
-    officer_node_id SERIAL PRIMARY KEY,
+CREATE TABLE Officers_2325 (
+    OfficerId SERIAL PRIMARY KEY,
     Name VARCHAR(255) NOT NULL,
     CountryCode VARCHAR(3),
     CountryName VARCHAR(100),
@@ -37,14 +37,14 @@ CREATE TABLE 2325_Officers (
 );
 
 -- Create Intermediaries Table
-CREATE TABLE Intermediaries (
+CREATE TABLE Intermediaries_2325 (
     intermediary_id SERIAL PRIMARY KEY,
     node_id INTEGER UNIQUE NOT NULL,
     -- Other attributes (nullable as needed)
 );
 
 -- Create Addresses Table
-CREATE TABLE Addresses (
+CREATE TABLE Addresses_2325 (
     address_id SERIAL PRIMARY KEY,
     node_id INTEGER UNIQUE NOT NULL,
     name VARCHAR(255), -- Nullable
@@ -52,7 +52,7 @@ CREATE TABLE Addresses (
 );
 
 -- Create RolesOfficer Table (Many-to-Many Relationship)
-CREATE TABLE RolesOfficer (
+CREATE TABLE RolesOfficer_2325 (
     officer_role_id SERIAL PRIMARY KEY,
     officer_id INTEGER REFERENCES Officers(officer_id),
     offshore_entity_id INTEGER REFERENCES OffshoreEntities(offshore_entity_id),
@@ -60,14 +60,14 @@ CREATE TABLE RolesOfficer (
 );
 
 -- Create IntermediaryOffshoreEntities Table (Many-to-Many Relationship)
-CREATE TABLE IntermediaryOffshoreEntities (
+CREATE TABLE IntermediaryOffshoreEntities_2325 (
     intermediary_offshore_entity_id SERIAL PRIMARY KEY,
     intermediary_id INTEGER REFERENCES Intermediaries(intermediary_id),
     offshore_entity_id INTEGER REFERENCES OffshoreEntities(offshore_entity_id)
 );
 
 -- Create OfficerAddresses Table (Many-to-Many Relationship)
-CREATE TABLE OfficerAddresses (
+CREATE TABLE OfficerAddresses_2325 (
     officer_address_id SERIAL PRIMARY KEY,
     officer_id INTEGER REFERENCES Officers(officer_id),
     address_id INTEGER REFERENCES Addresses(address_id)
