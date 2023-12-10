@@ -22,7 +22,7 @@ CREATE TABLE entities_2325 (
     service_provider VARCHAR(255),
     source_id VARCHAR(255),
     valid_until VARCHAR(255),
-    note VARCHAR(255)
+    note TEXT
 );
 
 -- Create Officers Table
@@ -34,6 +34,14 @@ CREATE TABLE officers_2325 (
     source_id VARCHAR(255),
     valid_until VARCHAR(255),
     note VARCHAR(255)
+);
+
+-- Create RolesOfficer Table (Many-to-Many Relationship)
+CREATE TABLE roles_officer_2325 (
+    officer_role_id SERIAL PRIMARY KEY,
+    officer_id INTEGER REFERENCES officers_2325(officer_id),
+    entity_id INTEGER REFERENCES entities_2325(entity_id),
+    role_id INTEGER REFERENCES roles_2325(role_id)
 );
 
 -- Create Intermediaries Table
@@ -49,14 +57,6 @@ CREATE TABLE addresses_2325 (
     node_id INTEGER UNIQUE NOT NULL,
     name VARCHAR(255), -- Nullable
     -- Other attributes (nullable as needed)
-);
-
--- Create RolesOfficer Table (Many-to-Many Relationship)
-CREATE TABLE roles_officer_2325 (
-    officer_role_id SERIAL PRIMARY KEY,
-    officer_id INTEGER REFERENCES officers_2325(officer_id),
-    entity_id INTEGER REFERENCES entities_2325(entity_id),
-    role_id INTEGER REFERENCES roles_2325(role_id)
 );
 
 -- Create IntermediaryOffshoreEntities Table (Many-to-Many Relationship)
