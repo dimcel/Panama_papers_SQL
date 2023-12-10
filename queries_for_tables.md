@@ -58,6 +58,15 @@ connection.close()
 **Entities**
 for entities table i had to replace 4 nan values in the name column and also change the attribute types to be able to have 865 character long notes! i will change it to TEXT to be good for the future!
 
+entity["name"] = entity["name"].fillna(value = "no_name")
+
+And renamed the dataframe to mach the database names
+
+# 1. Map DataFrame Columns to Database Columns
+
+column_mapping = dict(zip(entity.columns, db_table_columns))
+entity.rename(columns=column_mapping, inplace=True)
+
 CREATE TABLE entities_2325 (
 entity_id SERIAL PRIMARY KEY,
 name VARCHAR(255) NOT NULL,
