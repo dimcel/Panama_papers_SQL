@@ -104,3 +104,23 @@ roles_df = pd.DataFrame(roles_table, columns=["role_type"])
 roles_df["role_id"] = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31]
 roles_df = roles_df[["role_id","role_type"]]
 roles_df.to_sql('roles_2325', engine, if_exists='append', index=False)
+
+**Officers**
+The same as entities, there was 4 NaN in name collum.
+
+column_mapping = dict(zip(officer.columns, db_table_columns))
+officer.rename(columns=column_mapping, inplace=True)
+
+db_table_columns = [
+'officer_id',
+'name',
+'country_code',
+'country_name',
+'source_id',
+'valid_until',
+'note'
+]
+
+officer["name"] = officer["name"].fillna(value = "no_name")
+
+officer.to_sql('officers_2325', engine, if_exists='append', index=False)

@@ -33,7 +33,7 @@ CREATE TABLE officers_2325 (
     country_name VARCHAR(100),
     source_id VARCHAR(255),
     valid_until VARCHAR(255),
-    note VARCHAR(255)
+    note TEXT
 );
 
 -- Create RolesOfficer Table (Many-to-Many Relationship)
