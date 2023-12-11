@@ -93,6 +93,12 @@ note TEXT
 
 # unique of this is the ROLE table
 
+--sql table
+CREATE TABLE roles_2325 (
+role_id SERIAL PRIMARY KEY,
+role_type VARCHAR(100) NOT NULL
+);
+
 roles_table = sorted(edges.loc[edges['TYPE'] == 'officer_of']['link'].unique())
 roles_df = pd.DataFrame(roles_table, columns=["role_type"])
 roles_df["role_id"] = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31]
