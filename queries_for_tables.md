@@ -124,3 +124,5 @@ db_table_columns = [
 officer["name"] = officer["name"].fillna(value = "no_name")
 
 officer.to_sql('officers_2325', engine, if_exists='append', index=False)
+
+**Roles_officers**
