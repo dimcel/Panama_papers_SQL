@@ -180,3 +180,32 @@ roles_officers_2.rename(columns=column_mapping, inplace=True)
 roles_officers_2.to_sql('roles_officer_2325', engine, if_exists='append', index=False)
 
 **intermediatries**
+CREATE TABLE intermediaries_2325 (
+intermediary_id SERIAL PRIMARY KEY,
+name VARCHAR(255),
+country_code VARCHAR(15),
+country_name VARCHAR(255),
+status VARCHAR(100),
+source_id VARCHAR(255),
+valid_until VARCHAR(255),
+note TEXT
+);
+
+intermediary_2 = intermediary.copy()
+
+db_table_columns = [
+'intermediary_id',
+'name',
+'country_code',
+'country_name',
+'status',
+'source_id',
+'valid_until',
+'note'
+]
+column_mapping = dict(zip(intermediary_2.columns, db_table_columns))
+intermediary_2.rename(columns=column_mapping, inplace=True)
+
+intermediary_2.to_sql('intermediaries_2325', engine, if_exists='append', index=False)
+
+**intermediary entities**

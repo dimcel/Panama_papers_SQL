@@ -51,8 +51,13 @@ CREATE TABLE roles_officer_2325 (
 -- Create Intermediaries Table
 CREATE TABLE intermediaries_2325 (
     intermediary_id SERIAL PRIMARY KEY,
-    node_id INTEGER UNIQUE NOT NULL,
-    -- Other attributes (nullable as needed)
+    name VARCHAR(255),
+    country_code VARCHAR(15),
+    country_name VARCHAR(255),
+    status VARCHAR(100),
+    source_id VARCHAR(255),
+    valid_until VARCHAR(255),
+    note TEXT
 );
 
 -- Create Addresses Table
