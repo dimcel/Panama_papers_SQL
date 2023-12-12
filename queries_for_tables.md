@@ -18,6 +18,33 @@ print(f"Maximum length in '{column}': {max_length}")
 ---
 
 **--**
+import pandas as pd
+from sqlalchemy import create_engine
+
+# Assuming you have an SQLAlchemy engine named 'engine' and DataFrames for each table
+
+table_names = ['table1', 'table2', 'table3']
+dataframes = [df1, df2, df3] # Replace df1, df2, df3 with your actual DataFrames
+
+# Write SQL statements to a file
+
+sql_file_name = 'xxxx-data.sql'
+
+with open(sql_file_name, 'w') as sql_file:
+for table_name, df in zip(table_names, dataframes): # Use to_sql to insert data into the PostgreSQL table
+df.to_sql(table_name, engine, if_exists='append', index=False, chunksize=1000)
+
+        # Manually generate SQL insert statements for documentation
+        for chunk in pd.read_sql(f"SELECT * FROM {table_name}", engine, chunksize=1000):
+            chunk.to_sql(table_name, engine, if_exists='append', index=False)
+            for _, row in chunk.iterrows():
+                values = ', '.join([f"'{value}'" if isinstance(value, str) else str(value) for value in row])
+                sql_statement = f"INSERT INTO {table_name} ({', '.join(chunk.columns)}) VALUES ({values});\n"
+                sql_file.write(sql_statement)
+
+print(f"SQL statements have been written to {sql_file_name}.")
+
+**--**
 
 import pandas as pd
 import psycopg2
@@ -126,3 +153,30 @@ officer["name"] = officer["name"].fillna(value = "no_name")
 officer.to_sql('officers_2325', engine, if_exists='append', index=False)
 
 **Roles_officers**
+roles_officers = edges.loc[edges['TYPE'] == 'officer_of']
+roles_officers_2 = roles_officers.merge(roles_df, left_on='link', right_on='role_type').copy()
+roles_officers_2.drop(columns=["TYPE","link","role_type"], inplace=True)
+roles_officers_2 = roles_officers_2[['START_ID', 'role_id', 'END_ID', 'start_date', 'end_date', 'sourceID', 'valid_until']]
+roles_officers_2.insert(0, 'officer_role_id', range(1, 1 + len(roles_officers_2)))
+
+--
+db_table_columns = [
+'officer_role_id',
+'officer_id',
+'role_id',
+'entity_id',
+'start_date',
+'end_date',
+'source_id',
+'valid_until'
+]
+column_mapping = dict(zip(roles_officers_2.columns, db_table_columns))
+--
+
+roles_officers_2.rename(columns=column_mapping, inplace=True)
+
+#after deletting 5 rows by hand roles_officers_2 = roles_officers_2.drop(index=309344)
+
+roles_officers_2.to_sql('roles_officer_2325', engine, if_exists='append', index=False)
+
+**intermediatries**
