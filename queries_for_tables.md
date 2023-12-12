@@ -209,3 +209,36 @@ intermediary_2.rename(columns=column_mapping, inplace=True)
 intermediary_2.to_sql('intermediaries_2325', engine, if_exists='append', index=False)
 
 **intermediary entities**
+
+inter_entity = edges[edges["TYPE"] == "intermediary_of"].copy()
+
+inter_entity.drop(columns=["TYPE","link"], inplace=True)
+
+inter_entity.insert(0, 'intermediary_entity_id', range(1, 1 + len(inter_entity)))
+
+db_table_columns = [
+'intermediary_entity_id',
+'intermediary_id',
+'entity_id',
+'start_date',
+'end_date',
+'source_id',
+'valid_until'
+]
+column_mapping = dict(zip(inter_entity.columns, db_table_columns))
+inter_entity.rename(columns=column_mapping, inplace=True)
+
+inter_entity.to_sql('interm_entities_2325', engine, if_exists='append', index=False)
+
+-- Create IntermediaryOffshoreEntities Table (Many-to-Many Relationship)
+CREATE TABLE interm_entities_2325 (
+intermediary_entity_id SERIAL PRIMARY KEY,
+intermediary_id INTEGER REFERENCES intermediaries_2325(intermediary_id),
+entity_id INTEGER REFERENCES entities_2325(entity_id),
+start_date DATE,
+end_date DATE,
+source_id VARCHAR(255),
+valid_until VARCHAR(255)
+);
+
+**Adresses**
