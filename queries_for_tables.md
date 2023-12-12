@@ -242,3 +242,33 @@ valid_until VARCHAR(255)
 );
 
 **Adresses**
+
+CREATE TABLE addresses_2325 (
+address_id SERIAL PRIMARY KEY,
+name VARCHAR(255),
+address TEXT,
+country_code VARCHAR(255),
+country_name VARCHAR(100),
+source_id VARCHAR(255),
+valid_until VARCHAR(255),
+note TEXT
+);
+
+address_2 = address.copy()
+
+db_table_columns = [
+'address_id',
+'name',
+'address',
+'country_code',
+'country_name',
+'source_id',
+'valid_until',
+'note'
+]
+column_mapping = dict(zip(address_2.columns, db_table_columns))
+address_2.rename(columns=column_mapping, inplace=True)
+
+address_2.to_sql('addresses_2325', engine, if_exists='append', index=False)
+
+**adresses_entities_officer**

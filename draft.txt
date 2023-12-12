@@ -63,9 +63,13 @@ CREATE TABLE intermediaries_2325 (
 -- Create Addresses Table
 CREATE TABLE addresses_2325 (
     address_id SERIAL PRIMARY KEY,
-    node_id INTEGER UNIQUE NOT NULL,
-    name VARCHAR(255), -- Nullable
-    -- Other attributes (nullable as needed)
+    name VARCHAR(255),
+    address TEXT,
+    country_code VARCHAR(255),
+    country_name VARCHAR(100),
+    source_id VARCHAR(255),
+    valid_until VARCHAR(255),
+    note TEXT
 );
 
 -- Create IntermediaryOffshoreEntities Table (Many-to-Many Relationship)
@@ -80,11 +84,17 @@ CREATE TABLE interm_entities_2325 (
 );
 
 -- Create OfficerAddresses Table (Many-to-Many Relationship)
-CREATE TABLE OfficerAddresses_2325 (
+CREATE TABLE officers_entities_addresses_2325 (
     officer_address_id SERIAL PRIMARY KEY,
     officer_id INTEGER REFERENCES Officers(officer_id),
     address_id INTEGER REFERENCES Addresses(address_id)
+    officer_id INTEGER REFERENCES Officers(officer_id),
 );
+
+
+
+
+
 ******************************
 -- Countries Table
 CREATE TABLE Countries (
