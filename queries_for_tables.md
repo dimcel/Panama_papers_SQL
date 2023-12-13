@@ -1,5 +1,6 @@
 **Draft code for reuse**
 
+roles_officers_2[roles_officers_2['entity_id'].astype(str).str.startswith('11')].shape[0]
 max_lengths = {}
 
 # Iterate over each column in the DataFrame

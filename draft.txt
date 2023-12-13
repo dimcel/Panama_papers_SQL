@@ -85,10 +85,13 @@ CREATE TABLE interm_entities_2325 (
 
 -- Create OfficerAddresses Table (Many-to-Many Relationship)
 CREATE TABLE officers_entities_addresses_2325 (
-    officer_address_id SERIAL PRIMARY KEY,
-    officer_id INTEGER REFERENCES Officers(officer_id),
-    address_id INTEGER REFERENCES Addresses(address_id)
-    officer_id INTEGER REFERENCES Officers(officer_id),
+    officer_entity_address_id SERIAL PRIMARY KEY,
+    officer_id INTEGER REFERENCES officers_2325(officer_id),-- should REFERENCES also the entities_2325(entity_id)
+    address_id INTEGER REFERENCES addresses_2325(address_id),
+    start_date DATE,
+    end_date DATE,
+    source_id VARCHAR(255),
+    valid_until VARCHAR(255)
 );
 
 
