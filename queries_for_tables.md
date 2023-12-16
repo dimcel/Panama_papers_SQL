@@ -84,18 +84,36 @@ entity.to_sql(table_name, engine, if_exists='append', index=False)
 connection.close()
 
 **Entities**
-for entities table i had to replace 4 nan values in the name column and also change the attribute types to be able to have 865 character long notes! i will change it to TEXT to be good for the future!
+for entities table i had to replace 4 nan values in the name column
 
 entity["name"] = entity["name"].fillna(value = "no_name")
 
-And renamed the dataframe to mach the database names
-
 # 1. Map DataFrame Columns to Database Columns
+
+db_table_columns = [
+'entity_id',
+'name',
+'jurisdiction',
+'jurisdiction_description',
+'country_code',
+'country_name',
+'incorporation_date',
+'inactivation_date',
+'struck_off_date',
+'closed_date',
+'ibc_ruc',
+'status',
+'company_type',
+'service_provider',
+'source_id',
+'valid_until',
+'note'
+]
 
 column_mapping = dict(zip(entity.columns, db_table_columns))
 entity.rename(columns=column_mapping, inplace=True)
 
-CREATE TABLE entities_2325 (
+CREATE TABLE entities_2307_2325 (
 entity_id SERIAL PRIMARY KEY,
 name VARCHAR(255) NOT NULL,
 jurisdiction VARCHAR(255),
