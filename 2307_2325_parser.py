@@ -42,3 +42,27 @@ db_entity_columns = [
 ]
 
 data_parser(entity, db_entity_columns, "entities_2307_2325")
+
+# Roles table
+roles_table = sorted(edges.loc[edges['TYPE'] == 'officer_of']['link'].unique())
+roles_df = pd.DataFrame(roles_table, columns=["role_type"]).copy()
+roles_df.insert(0, 'role_id', range(1, 1 + len(roles_df)))
+roles_df = roles_df[["role_id", "role_type"]]
+roles_df.to_sql('roles_2307_2325', engine, if_exists='append', index=False)
+
+
+# Officers table
+
+# ! For officers table i had to replace 4 nan values in the name column
+officer["name"] = officer["name"].fillna(value="no_name")
+
+db_officer_columns = [
+    'officer_id', 'name', 'country_code', 'country_name', 'source_id', 'valid_until', 'note'
+]
+
+data_parser(officer, db_officer_columns, "officers_2307_2325")
+
+# Officer_entity_roles table
+
+tmp = edges[edges["TYPE"] == "officer_of"].copy()
+tmp = tmp.merge(roles_df, left_on='link', right_on='role_type').copy()

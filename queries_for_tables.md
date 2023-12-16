@@ -71,14 +71,6 @@ connection = psycopg2.connect(\*\*db_params)
 
 engine = create_engine(f'postgresql://{db_params["user"]}:{db_params["password"]}@{db_params["host"]}:{db_params["port"]}/{db_params["database"]}')
 
-# Replace 'entities_2325' with your actual table name
-
-table_name = 'entities_2325'
-
-# Transfer the DataFrame to the PostgreSQL database
-
-entity.to_sql(table_name, engine, if_exists='append', index=False)
-
 # Close the database connection
 
 connection.close()
@@ -87,6 +79,8 @@ connection.close()
 for entities table i had to replace 4 nan values in the name column
 
 entity["name"] = entity["name"].fillna(value = "no_name")
+
+entity.to_sql(table_name, engine, if_exists='append', index=False)
 
 # 1. Map DataFrame Columns to Database Columns
 
@@ -139,17 +133,16 @@ note TEXT
 
 # unique of this is the ROLE table
 
---sql table
-CREATE TABLE roles_2325 (
+CREATE TABLE roles_2307_2325 (
 role_id SERIAL PRIMARY KEY,
 role_type VARCHAR(100) NOT NULL
 );
 
 roles_table = sorted(edges.loc[edges['TYPE'] == 'officer_of']['link'].unique())
-roles_df = pd.DataFrame(roles_table, columns=["role_type"])
-roles_df["role_id"] = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31]
+roles_df = pd.DataFrame(roles_table, columns=["role_type"]).copy()
+roles_df.insert(0, 'role_id', range(1, 1 + len(roles_df)))
 roles_df = roles_df[["role_id","role_type"]]
-roles_df.to_sql('roles_2325', engine, if_exists='append', index=False)
+roles_df.to_sql('roles_2307_2325', engine, if_exists='append', index=False)
 
 **Officers**
 The same as entities, there was 4 NaN in name collum.

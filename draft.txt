@@ -26,7 +26,7 @@ CREATE TABLE entities_2325 (
 );
 
 -- Create Officers Table
-CREATE TABLE officers_2325 (
+CREATE TABLE officers_2307_2325 (
     officer_id SERIAL PRIMARY KEY,
     name VARCHAR(255) NOT NULL,
     country_code VARCHAR(3),
@@ -37,23 +37,26 @@ CREATE TABLE officers_2325 (
 );
 
 -- Create RolesOfficer Table (Many-to-Many Relationship)
-CREATE TABLE roles_officer_2325 (
-    officer_role_id SERIAL PRIMARY KEY,
-    officer_id INTEGER REFERENCES officers_2325(officer_id),
-    role_id INTEGER REFERENCES roles_2325(role_id),
-    entity_id INTEGER REFERENCES entities_2325(entity_id),
+CREATE TABLE officers_roles_entities_2307_2325 (
+    officer_role_entity_id SERIAL PRIMARY KEY,
+    officer_id INTEGER REFERENCES officers_2307_2325(officer_id),
+    role_id INTEGER REFERENCES roles_2307_2325(role_id),
+    entity_id INTEGER REFERENCES entities_2307_2325(entity_id),
     start_date DATE,
     end_date DATE,
     source_id VARCHAR(255),
     valid_until VARCHAR(255)
 );
 
-CREATE TABLE officer_officers_2325 (
-    officer_officer_id SERIAL PRIMARY KEY,
-    officer_id_1
-    officer_id_2
-
-
+CREATE TABLE officers_roles_officers_2307_2325 (
+    officer_role_officer_id SERIAL PRIMARY KEY,
+    officer_id_1 INTEGER REFERENCES officers_2307_2325(officer_id),
+    role_id INTEGER REFERENCES roles_2325(role_id),
+    officer_id_2 INTEGER REFERENCES officers_2307_2325(officer_id),
+    start_date DATE,
+    end_date DATE,
+    source_id VARCHAR(255),
+    valid_until VARCHAR(255)
 );
 
 
