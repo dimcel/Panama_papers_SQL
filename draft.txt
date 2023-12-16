@@ -158,52 +158,43 @@ CREATE TABLE YourTable (
 );
 
 
-The design includes multiple tables to represent different entities and relationships between them. Let me explain the rationale behind each table:
+The design includes multiple tables to represent different entities and relationships between them. 
 
 Roles Table:
-
 Holds distinct roles (e.g., protector, beneficiary, shareholder, director).
 Enables flexibility in adding new roles without altering the schema.
 
 OffshoreEntities Table:
-
 Represents offshore entities.
 Each entity has a unique identifier (offshore_entity_id), and its details are stored here.
 
 
 Officers Table:
-
 Represents officers, whether individuals or companies.
 Each officer has a unique identifier (officer_id), and its details are stored here.
 
 
 Intermediaries Table:
-
 Represents intermediaries, typically law firms or middlemen.
 Each intermediary has a unique identifier (intermediary_id), and its details are stored here.
 
 
-Addresses Table:
-
-Holds postal addresses of officers.
+addresses Table:
+Holds postal addresses of officers and entities.
 Each address has a unique identifier (address_id), and its details are stored here.
 
 
 RolesOfficer Table (Many-to-Many Relationship):
-
 Links officers with roles in multiple offshore entities.
-Uses foreign keys to connect to the Officers, OffshoreEntities, and Roles tables.
-
+Uses foreign keys to connect to the Officers, Entities, and Roles tables.
 
 
 IntermediaryOffshoreEntities Table (Many-to-Many Relationship):
-
 Links intermediaries with multiple offshore entities.
 Uses foreign keys to connect to the Intermediaries and OffshoreEntities tables.
 
 
 OfficerAddresses Table (Many-to-Many Relationship):
-
 Links officers with multiple addresses.
 Uses foreign keys to connect to the Officers and Addresses tables.
 The reason for using separate tables is to maintain a normalized database structure, which offers advantages such as minimizing data redundancy, improving data integrity, and facilitating efficient query operations.
