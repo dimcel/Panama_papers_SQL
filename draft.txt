@@ -48,6 +48,15 @@ CREATE TABLE roles_officer_2325 (
     valid_until VARCHAR(255)
 );
 
+CREATE TABLE officer_officers_2325 (
+    officer_officer_id SERIAL PRIMARY KEY,
+    officer_id_1
+    officer_id_2
+
+
+);
+
+
 -- Create Intermediaries Table
 CREATE TABLE intermediaries_2325 (
     intermediary_id SERIAL PRIMARY KEY,
@@ -84,9 +93,20 @@ CREATE TABLE interm_entities_2325 (
 );
 
 -- Create OfficerAddresses Table (Many-to-Many Relationship)
-CREATE TABLE officers_entities_addresses_2325 (
-    officer_entity_address_id SERIAL PRIMARY KEY,
-    officer_id INTEGER REFERENCES officers_2325(officer_id),-- should REFERENCES also the entities_2325(entity_id)
+CREATE TABLE officers_addresses_2325 (
+    officer_address_id SERIAL PRIMARY KEY,
+    officer_id INTEGER REFERENCES officers_2325(officer_id),
+    address_id INTEGER REFERENCES addresses_2325(address_id),
+    start_date DATE,
+    end_date DATE,
+    source_id VARCHAR(255),
+    valid_until VARCHAR(255)
+);
+
+
+CREATE TABLE entities_addresses_2325 (
+    entity_address_id SERIAL PRIMARY KEY,
+    entity_id INTEGER REFERENCES entities_2325(entity_id),
     address_id INTEGER REFERENCES addresses_2325(address_id),
     start_date DATE,
     end_date DATE,
