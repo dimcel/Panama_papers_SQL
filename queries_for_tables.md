@@ -272,4 +272,44 @@ address_2.rename(columns=column_mapping, inplace=True)
 
 address_2.to_sql('addresses_2325', engine, if_exists='append', index=False)
 
-**adresses_entities_officer**
+**adresses_entities**
+
+register_addresses = edges[edges["TYPE"] == "registered_address"].copy()
+addresses_entities = register_addresses[register_addresses['START_ID'].astype(str).str.startswith('10')].copy()
+addresses_entities.insert(0, 'entity_address_id', range(1, 1 + len(addresses_entities)))
+addresses_entities = addresses_entities.rename(columns={"register_address_id": "entity_address_id"})
+
+db_table_columns = [
+'entity_address_id',
+'entity_id',
+'address_id',
+'start_date',
+'end_date',
+'source_id',
+'valid_until'
+]
+column_mapping = dict(zip(addresses_entities.columns, db_table_columns))
+addresses_entities.rename(columns=column_mapping, inplace=True)
+
+addresses_entities.to_sql('entities_addresses_2325', engine, if_exists='append', index=False)
+
+**addresses_officers**
+
+addresses_officers = register_addresses[~register_addresses['START_ID'].astype(str).str.startswith('10')].copy()
+
+addresses_officers.drop(columns=["officer_entity_address_id"], inplace=True) #!this may be obsolete
+
+addresses_officers.insert(0, 'officer_address_id', range(1, 1 + len(addresses_officers)))
+db_table_columns = [
+'officer_address_id',
+'officer_id',
+'address_id',
+'start_date',
+'end_date',
+'source_id',
+'valid_until'
+]
+column_mapping = dict(zip(addresses_officers.columns, db_table_columns))
+addresses_officers.rename(columns=column_mapping, inplace=True)
+
+addresses_officers.to_sql('officers_addresses_2325', engine, if_exists='append', index=False)
