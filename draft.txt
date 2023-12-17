@@ -51,7 +51,7 @@ CREATE TABLE officers_roles_entities_2307_2325 (
 CREATE TABLE officers_roles_officers_2307_2325 (
     officer_role_officer_id SERIAL PRIMARY KEY,
     officer_id_1 INTEGER REFERENCES officers_2307_2325(officer_id),
-    role_id INTEGER REFERENCES roles_2325(role_id),
+    role_id INTEGER REFERENCES roles_2307_2325(role_id),
     officer_id_2 INTEGER REFERENCES officers_2307_2325(officer_id),
     start_date DATE,
     end_date DATE,
@@ -60,8 +60,20 @@ CREATE TABLE officers_roles_officers_2307_2325 (
 );
 
 
+CREATE TABLE officers_roles_intermediaries_2307_2325 (
+    officer_role_intermediary SERIAL PRIMARY KEY,
+    officer_id INTEGER REFERENCES officers_2307_2325(officer_id),
+    role_id INTEGER REFERENCES roles_2307_2325(role_id),
+    intermediaries_id INTEGER REFERENCES intermediaries_2307_2325(intermediary_id),
+    start_date DATE,
+    end_date DATE,
+    source_id VARCHAR(255),
+    valid_until VARCHAR(255)
+);
+
+
 -- Create Intermediaries Table
-CREATE TABLE intermediaries_2325 (
+CREATE TABLE intermediaries_2307_2325 (
     intermediary_id SERIAL PRIMARY KEY,
     name VARCHAR(255),
     country_code VARCHAR(15),

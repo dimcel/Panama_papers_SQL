@@ -62,7 +62,59 @@ db_officer_columns = [
 
 data_parser(officer, db_officer_columns, "officers_2307_2325")
 
-# Officer_entity_roles table
+
+# Intermediaries table
+
+db_inter_columns = [
+    'intermediary_id', 'name', 'country_code', 'country_name', 'status', 'source_id', 'valid_until', 'note'
+]
+
+data_parser(intermediary, db_inter_columns, "intermediaries_2307_2325")
+
+
+# Preprocessing edges table
 
 tmp = edges[edges["TYPE"] == "officer_of"].copy()
 tmp = tmp.merge(roles_df, left_on='link', right_on='role_type').copy()
+tmp.drop(columns=["TYPE", "link", "role_type"], inplace=True)
+tmp = tmp[['START_ID', 'role_id', 'END_ID',
+           'start_date', 'end_date', 'sourceID', 'valid_until']]
+
+# officer_role_entity table
+
+officers_roles_entities = tmp[tmp['END_ID'].astype(
+    str).str.startswith('10')].copy()
+officers_roles_entities.insert(
+    0, 'officer_role_entity_id', range(1, 1 + len(officers_roles_entities)))
+db_ore_columns = [
+    'officer_role_entity_id', 'officer_id', 'role_id', 'entity_id', 'start_date', 'end_date', 'source_id', 'valid_until'
+]
+data_parser(officers_roles_entities, db_ore_columns,
+            "officers_roles_entities_2307_2325")
+
+# officer_role_officer table
+
+officers_roles_officers = tmp[tmp['END_ID'].astype(
+    str).str.startswith('12')].copy()
+officers_roles_officers.insert(
+    0, 'officer_role_officer_id', range(1, 1 + len(officers_roles_officers)))
+db_oro_columns = [
+    'officer_role_officer_id', 'officer_id_1', 'role_id', 'officer_id_2', 'start_date', 'end_date', 'source_id', 'valid_until'
+]
+data_parser(officers_roles_officers, db_oro_columns,
+            "officers_roles_officers_2307_2325")
+
+# officer_role_intermediary table
+
+officers_roles_intermediaries = tmp[tmp['END_ID'].astype(
+    str).str.startswith('11')].copy()
+officers_roles_intermediaries.insert(0, 'officer_role_intermediary_id', range(
+    1, 1 + len(officers_roles_intermediaries)))
+db_ori_columns = [
+    'officer_role_intermediary_id', 'officer_id', 'role_id', 'intermediary_id', 'start_date', 'end_date', 'source_id', 'valid_until'
+]
+data_parser(officers_roles_intermediaries, db_ori_columns,
+            "officers_roles_intermediaries_2307_2325")
+
+
+# Intermediaries_entieies table
