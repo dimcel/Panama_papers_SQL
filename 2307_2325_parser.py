@@ -1,8 +1,19 @@
 # Purpose: This file is used to parse the data for the database from the csv files
-
+import os
 import pandas as pd
 import psycopg2
 from sqlalchemy import create_engine
+
+# Read csv files
+
+folder_path = 'csv_panama_papers'
+csv_files = [file for file in os.listdir(folder_path) if file.endswith('.csv')]
+for csv_file in csv_files:
+    file_path = os.path.join(folder_path, csv_file)
+    df_name = csv_file.split('.')[2] if len(csv_file.split('.')) > 2 else None
+    globals()[df_name] = pd.read_csv(file_path)
+
+edges = csv.copy()
 
 # Function for parse data to the database
 
@@ -117,4 +128,45 @@ data_parser(officers_roles_intermediaries, db_ori_columns,
             "officers_roles_intermediaries_2307_2325")
 
 
-# Intermediaries_entieies table
+# Intermediaries_entities table
+
+
+inter_entity = edges[edges["TYPE"] == "intermediary_of"].copy()
+inter_entity.drop(columns=["TYPE", "link"], inplace=True)
+inter_entity.insert(0, 'intermediary_entity_id',
+                    range(1, 1 + len(inter_entity)))
+
+db_ie_columns = [
+    'intermediary_entity_id', 'intermediary_id', 'entity_id', 'start_date', 'end_date', 'source_id', 'valid_until'
+]
+data_parser(inter_entity, db_ie_columns, "intermediaries_entities_2307_2325")
+
+
+# Addresses table
+
+db_address_columns = [
+    'address_id', 'name', 'address', 'country_code', 'country_name', 'source_id', 'valid_until', 'note'
+]
+data_parser(address, db_address_columns, "addresses_2307_2325")
+
+
+# Preprocessing for register_addresses
+register_addresses = edges[edges["TYPE"] == "registered_address"].copy()
+register_addresses.drop(columns=["TYPE", "link"], inplace=True)
+addresses_entities = register_addresses[register_addresses['START_ID'].astype(
+    str).str.startswith('10')].copy()
+addresses_officers = register_addresses[~register_addresses['START_ID'].astype(
+    str).str.startswith('10')].copy()
+
+
+# Entities_address table
+db_ea_columns = [
+    'entity_address_id', 'entity_id', 'address_id', 'start_date', 'end_date', 'source_id', 'valid_until'
+]
+data_parser(addresses_entities, db_ea_columns, "entities_addresses_2307_2325")
+
+# Officers_address table
+db_oa_columns = [
+    'officer_address_id', 'officer_id', 'address_id', 'start_date', 'end_date', 'source_id', 'valid_until'
+]
+data_parser(addresses_officers, db_oa_columns, "officers_addresses_2307_2325")
