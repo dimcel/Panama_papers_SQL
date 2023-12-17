@@ -10,4 +10,5 @@
 #ignore pdf
 *.pdf
 #ignore all the files in the temp folder except the tex files
+/Report1/*
 !/Report1/*.tex
