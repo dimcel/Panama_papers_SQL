@@ -36,7 +36,7 @@ CREATE TABLE officers_2307_2325 (
     note TEXT
 );
 
--- Create RolesOfficer Table (Many-to-Many Relationship)
+-- (Many-to-Many Relationship)
 CREATE TABLE officers_roles_entities_2307_2325 (
     officer_role_entity_id SERIAL PRIMARY KEY,
     officer_id INTEGER REFERENCES officers_2307_2325(officer_id),
@@ -48,6 +48,7 @@ CREATE TABLE officers_roles_entities_2307_2325 (
     valid_until VARCHAR(255)
 );
 
+-- (Many-to-Many Relationship)
 CREATE TABLE officers_roles_officers_2307_2325 (
     officer_role_officer_id SERIAL PRIMARY KEY,
     officer_id_1 INTEGER REFERENCES officers_2307_2325(officer_id),
@@ -60,6 +61,7 @@ CREATE TABLE officers_roles_officers_2307_2325 (
 );
 
 
+-- (Many-to-Many Relationship)
 CREATE TABLE officers_roles_intermediaries_2307_2325 (
     officer_role_intermediary_id SERIAL PRIMARY KEY,
     officer_id INTEGER REFERENCES officers_2307_2325(officer_id),
@@ -118,6 +120,7 @@ CREATE TABLE officers_addresses_2325 (
 );
 
 
+-- (Many-to-Many Relationship)
 CREATE TABLE entities_addresses_2325 (
     entity_address_id SERIAL PRIMARY KEY,
     entity_id INTEGER REFERENCES entities_2307_2325(entity_id),
@@ -178,7 +181,7 @@ Roles Table:
 Holds distinct roles (e.g., protector, beneficiary, shareholder, director).
 Enables flexibility in adding new roles without altering the schema.
 
-OffshoreEntities Table:
+Entities Table:
 Represents offshore entities.
 Each entity has a unique identifier (offshore_entity_id), and its details are stored here.
 
@@ -193,7 +196,7 @@ Represents intermediaries, typically law firms or middlemen.
 Each intermediary has a unique identifier (intermediary_id), and its details are stored here.
 
 
-addresses Table:
+Addresses table:
 Holds postal addresses of officers and entities.
 Each address has a unique identifier (address_id), and its details are stored here.
 
