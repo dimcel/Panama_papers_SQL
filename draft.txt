@@ -86,6 +86,7 @@ CREATE TABLE intermediaries_2307_2325 (
     note TEXT
 );
 
+-- Addresses table
 CREATE TABLE addresses_2307_2325 (
     address_id SERIAL PRIMARY KEY,
     name VARCHAR(255),
