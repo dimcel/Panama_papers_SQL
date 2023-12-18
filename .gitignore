@@ -9,6 +9,10 @@
 
 #ignore pdf
 *.pdf
-#ignore all the files in the temp folder except the tex files
+#ignore all the files in the report1 folder except the tex files
 /Report1/*
 !/Report1/*.tex
+
+# ignore all the files in the reoirt2 folder except the tex files
+/Report2/*
+!/Report2/*.tex
