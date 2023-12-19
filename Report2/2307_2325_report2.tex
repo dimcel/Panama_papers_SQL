@@ -9,8 +9,7 @@
 \geometry{a4paper, total={5.5in, 7.5in}, left=0.75in, right=0.75in, top=0.75in, bottom=0.75in}
 
 \title{Database Design Report}
-\author{Your Name}
-\date{\today}
+\author{Ioannis Zacharopoulos (2307)/Dimitrios Tselentis (2325)}
 
 % Custom line spacing
 \onehalfspacing
@@ -25,10 +24,10 @@ In designing the database structure, careful consideration was given to create a
 
 The decision to segment the data into separate tables for roles, entities, officers, intermediaries, addresses, and their associated relationships was driven by the need for modularity and extensibility. This design not only facilitates efficient data management but also allows for seamless expansion by introducing new roles or entities without requiring alterations to the existing schema.
 
-During the preprocessing phase, a notable observation was the presence of "NA" values in the "name" column of the entities and officers tables. Instead of discarding these tuples, a strategic choice was made to replace "NA" with "no\_name." This approach ensures that no critical information is lost while maintaining data consistency.
+During the preprocessing phase, a notable observation was the presence of "NA" values in the "name" column of the entities and officers tables. Instead of discarding these tuples, we decided to replace "NA" with "no\_name." This approach ensures that no critical information is lost while maintaining data consistency.
 
-Furthermore, a comprehensive analysis of the edges CSV, depicting connections between tables, uncovered that the "officer\_of" relationship extended beyond connecting entities. It also involved officers and intermediaries. To accurately capture the diversity of these connections, tables such as officers\_roles\_officers and officers\_roles\_intermediaries were introduced. These additional tables were retained to preserve the intricacies of the relationships within the dataset.
+Furthermore, a comprehensive analysis of the edges CSV, depicting connections between tables, uncovered that the "officer\_of" relationship extended beyond connecting entities. It also involved officers and intermediaries. To accurately capture the diversity of these connections, tables such as officers\_roles\_officers and officers\_roles\_intermediaries were introduced. These additional tables were retained to preserve the relationships within the dataset.
 
-In conclusion, the chosen database structure stands as a testament to its adaptability and resilience. The decisions made during design were grounded in a commitment to data integrity, flexibility, and a comprehensive representation of the dataset. This robust architecture not only addresses the current requirements but also positions the database for seamless future enhancements.
+In conclusion, the decisions made during design were grounded in a commitment to data integrity, flexibility, and a comprehensive representation of the dataset. This architecture not only addresses the current requirements but also positions the database for seamless future enhancements.
 
 \end{document}
