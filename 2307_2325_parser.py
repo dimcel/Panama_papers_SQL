@@ -25,7 +25,7 @@ def data_parser(df_name, db_table_columns, db_table_name):
         df_name.to_sql(db_table_name, engine, if_exists='append', index=False)
         return print(f"Data successfully parsed to {db_table_name} table")
     except Exception as e:
-        print(f"Error: {e}")
+        # print(f"Error: {e}") uncomment this line to see more of the error
         return print(f"Data was not parsed to {db_table_name} table")
 
 
@@ -160,12 +160,20 @@ addresses_officers = register_addresses[~register_addresses['START_ID'].astype(
 
 
 # Entities_address table
+
+addresses_entities.insert(0, 'entity_address_id',
+                          range(1, 1 + len(addresses_entities)))
+
 db_ea_columns = [
     'entity_address_id', 'entity_id', 'address_id', 'start_date', 'end_date', 'source_id', 'valid_until'
 ]
 data_parser(addresses_entities, db_ea_columns, "entities_addresses_2307_2325")
 
 # Officers_address table
+
+addresses_officers.insert(0, 'intermediary_entity_id',
+                          range(1, 1 + len(addresses_officers)))
+
 db_oa_columns = [
     'officer_address_id', 'officer_id', 'address_id', 'start_date', 'end_date', 'source_id', 'valid_until'
 ]
