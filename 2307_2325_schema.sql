@@ -1,10 +1,10 @@
--- Create Roles Table
+-- Roles Table
 CREATE TABLE roles_2307_2325 (
     role_id SERIAL PRIMARY KEY,
     role_type VARCHAR(100) NOT NULL
 );
 
--- Create Entities Table
+-- Entities Table
 CREATE TABLE entities_2307_2325 (
     entity_id SERIAL PRIMARY KEY,
     name VARCHAR(255) NOT NULL,
@@ -25,7 +25,7 @@ CREATE TABLE entities_2307_2325 (
     note TEXT
 );
 
--- Create Officers Table
+-- Officers Table
 CREATE TABLE officers_2307_2325 (
     officer_id SERIAL PRIMARY KEY,
     name VARCHAR(255) NOT NULL,
@@ -36,7 +36,7 @@ CREATE TABLE officers_2307_2325 (
     note TEXT
 );
 
--- (Many-to-Many Relationship)
+-- Many-to-Many Relationship 
 CREATE TABLE officers_roles_entities_2307_2325 (
     officer_role_entity_id SERIAL PRIMARY KEY,
     officer_id INTEGER REFERENCES officers_2307_2325(officer_id),
@@ -48,7 +48,8 @@ CREATE TABLE officers_roles_entities_2307_2325 (
     valid_until VARCHAR(255)
 );
 
--- (Many-to-Many Relationship)
+
+-- Many-to-Many Relationship 
 CREATE TABLE officers_roles_officers_2307_2325 (
     officer_role_officer_id SERIAL PRIMARY KEY,
     officer_id_1 INTEGER REFERENCES officers_2307_2325(officer_id),
@@ -61,12 +62,12 @@ CREATE TABLE officers_roles_officers_2307_2325 (
 );
 
 
--- (Many-to-Many Relationship)
+-- Many-to-Many Relationship
 CREATE TABLE officers_roles_intermediaries_2307_2325 (
     officer_role_intermediary_id SERIAL PRIMARY KEY,
     officer_id INTEGER REFERENCES officers_2307_2325(officer_id),
     role_id INTEGER REFERENCES roles_2307_2325(role_id),
-    intermediary_id INTEGER REFERENCES intermediaries_2307_2325(intermediary_id),
+    intermediary_id INTEGER REFERENCES intermediaries_2307_232(intermediary_id),
     start_date DATE,
     end_date DATE,
     source_id VARCHAR(255),
@@ -74,7 +75,7 @@ CREATE TABLE officers_roles_intermediaries_2307_2325 (
 );
 
 
--- Create Intermediaries Table
+-- Intermediaries Table
 CREATE TABLE intermediaries_2307_2325 (
     intermediary_id SERIAL PRIMARY KEY,
     name VARCHAR(255),
@@ -98,10 +99,10 @@ CREATE TABLE addresses_2307_2325 (
     note TEXT
 );
 
--- (Many-to-Many Relationship)
+-- Many-to-Many Relationship
 CREATE TABLE intermediaries_entities_2307_2325 (
     intermediary_entity_id SERIAL PRIMARY KEY,
-    intermediary_id INTEGER REFERENCES intermediaries_2307_2325(intermediary_id),
+    intermediary_id INTEGER REFERENCES intermediaries_2307_232(intermediary_id),
     entity_id INTEGER REFERENCES entities_2307_2325(entity_id),
     start_date DATE,
     end_date DATE,
@@ -109,7 +110,7 @@ CREATE TABLE intermediaries_entities_2307_2325 (
     valid_until VARCHAR(255) 
 );
 
--- (Many-to-Many Relationship)
+-- Many-to-Many Relationship
 CREATE TABLE officers_addresses_2325 (
     officer_address_id SERIAL PRIMARY KEY,
     officer_id INTEGER REFERENCES officers_2307_2325(officer_id),
@@ -121,7 +122,7 @@ CREATE TABLE officers_addresses_2325 (
 );
 
 
--- (Many-to-Many Relationship)
+-- Many-to-Many Relationship
 CREATE TABLE entities_addresses_2325 (
     entity_address_id SERIAL PRIMARY KEY,
     entity_id INTEGER REFERENCES entities_2307_2325(entity_id),
