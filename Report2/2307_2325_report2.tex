@@ -26,7 +26,7 @@ The decision to segment the data into separate tables for roles, entities, offic
 
 During the preprocessing phase, a notable observation was the presence of "NA" values in the "name" column of the entities and officers tables. Instead of discarding these tuples, we decided to replace "NA" with "no\_name." This approach ensures that no critical information is lost while maintaining data consistency.
 
-Furthermore, a comprehensive analysis of the edges CSV, depicting connections between tables, uncovered that the "officer\_of" relationship extended beyond connecting entities. It also involved officers and intermediaries. To accurately capture the diversity of these connections, tables such as officers\_roles\_officers and officers\_roles\_intermediaries were introduced. These additional tables were retained to preserve the relationships within the dataset.
+Furthermore, a comprehensive analysis of the edges CSV, depicting connections between tables, uncovered that the "officer\_of" relationship extended \textbf{beyond} connecting entities. It also involved \textbf{officers and intermediaries}. To accurately capture the diversity of these connections, tables such as officers\_roles\_officers and officers\_roles\_intermediaries were introduced. These additional tables were retained to preserve the relationships within the dataset.
 
 In conclusion, the decisions made during design were grounded in a commitment to data integrity, flexibility, and a comprehensive representation of the dataset. This architecture not only addresses the current requirements but also positions the database for seamless future enhancements.
 

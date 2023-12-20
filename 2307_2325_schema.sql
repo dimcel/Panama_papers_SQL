@@ -8,7 +8,7 @@ CREATE TABLE entities_2307_2325 (
     name VARCHAR(255) NOT NULL,
     jurisdiction VARCHAR(255),
     jurisdiction_description VARCHAR(255),
-    country_code VARCHAR(3),
+    country_code VARCHAR(100),
     country_name VARCHAR(100),
     incorporation_date DATE,
     inactivation_date DATE,
@@ -26,7 +26,7 @@ CREATE TABLE entities_2307_2325 (
 CREATE TABLE officers_2307_2325 (
     officer_id SERIAL PRIMARY KEY,
     name VARCHAR(255) NOT NULL,
-    country_code VARCHAR(3),
+    country_code VARCHAR(100),
     country_name VARCHAR(100),
     source_id VARCHAR(255),
     valid_until VARCHAR(255),
