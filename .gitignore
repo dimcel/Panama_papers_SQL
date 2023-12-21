@@ -12,11 +12,14 @@
 #ignore all the files in the report1 folder except the tex files
 /Report1/*
 !/Report1/*.tex
+!/Report1/*.png
 
 # ignore all the files in the report2 folder except the tex files
 /Report2/*
 !/Report2/*.tex
+!/Report2/*.png
 
 # ignore all the files in the report3 folder except the tex files
 /Report3/*
 !/Report3/*.tex
+!/Report3/*.png
