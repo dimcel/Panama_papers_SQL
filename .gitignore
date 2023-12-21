@@ -13,10 +13,10 @@
 /Report1/*
 !/Report1/*.tex
 
-# ignore all the files in the reoirt2 folder except the tex files
+# ignore all the files in the report2 folder except the tex files
 /Report2/*
 !/Report2/*.tex
 
-
+# ignore all the files in the report3 folder except the tex files
 /Report3/*
 !/Report3/*.tex
