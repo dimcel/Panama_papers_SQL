@@ -31,7 +31,7 @@ Count all the offshore entities of the database.
 
 \begin{figure}[h]
     \centering
-    \includegraphics[width=0.9\linewidth]{Q1.png}
+    \includegraphics[width=0.6\linewidth]{Q1.png}
     \captionsetup{labelformat=empty}
     \caption{Question 1}
 \end{figure}
@@ -56,13 +56,13 @@ Find the top-20 countries in terms of the number of officers they have, ordered 
 Find the node\_ids, the names, and the addresses of the officers coming from Greece. For those that there is no registered address, the entry should be returned with the respective attribute empty (NULL).
 
 \[
-    \pi_{\text{{o.officer\_id, o.name, a.address}}}(\sigma_{\text{{o.country\_name = 'Greece'}}}) \bowtie_{\text{L}}\rho_o(\text{{officers\_2307\_2325}})
+    \pi_{\text{{o.officer\_id, o.name, a.address}}}(\sigma_{\text{{o.country\_name = 'Greece'}}}) \bowtie_{\text{L}}(\rho_o(\text{{officers\_2307\_2325}}))
 \]
 \[
-    \bowtie_{\text{L}}({\text{{o.officer\_id = oa.officer\_id}}}  (\text{{\(\rho_{\text{{oa}}}(\text{{officers\_addresses\_2307\_2325}})\)}})
+    \bowtie_{\text{L}}({\text{{o.officer\_id = oa.officer\_id}}}  (\text{{\(\rho_{\text{{oa}}}(\text{{officers\_addresses\_2307\_2325}})\)}}))
 \]
 \[
-    \bowtie_{\text{L}}({\text{{oa.address\_id = a.address\_id}}}(\rho_{\text{{a}}}(\text{{addresses\_2307\_2325}}))
+    \bowtie_{\text{L}}({\text{{oa.address\_id = a.address\_id}}}(\rho_{\text{{a}}}(\text{{addresses\_2307\_2325}})))
 \]
 
 
@@ -83,17 +83,20 @@ Find the node\_ids, the names, and the addresses of all officers who play a role
     \pi_{\text{o.officer\_id, o.name, a.address}}
 \]
 \[
-    (\sigma_{\text{e.country\_name = 'Greece' AND e.jurisdiction\_description = 'Seychelles'}}) \bowtie_{\text{L}}\rho_o(\text{{officers\_2307\_2325}})
+    \sigma_{\text{e.country\_name = 'Greece' AND e.jurisdiction\_description = 'Seychelles'}}
 \]
 \[
-    \bowtie_{\text{L}}({\text{o.officer\_id = ore.officer\_id}} \rho_{\text{ore}}(\text{officers\_roles\_entities\_2307\_2325}))
+    \bowtie_{\text{L}}(\rho_o(\text{{officers\_2307\_2325}}))
+\]
+\[
+    \bowtie_{\text{L}}({\text{o.officer\_id = ore.officer\_id}} (\rho_{\text{ore}}(\text{officers\_roles\_entities\_2307\_2325})))
 \]
 \[
     \bowtie_{\text{L}}({\text{ore.entity\_id = e.entity\_id}}
-    \rho_{\text{ea}}(\text{entities\_addresses\_2307\_2325}))
+    (\rho_{\text{oa}}(\text{officers\_addresses\_2307\_2325})))
 \]
 \[
-    \bowtie_{\text{L}}({\text{ea.entity\_id = e.entity\_id}} \rho_{\text{a}}(\text{addresses\_2307\_2325}))
+    \bowtie_{\text{L}}({\text{oa.officer\_id = o.officer\_id}} (\rho_{\text{a}}(\text{addresses\_2307\_2325})))
 \]
 \begin{figure}[h]
     \centering
@@ -110,9 +113,23 @@ Modify an officer’s address by removing all previous addresses and inserting a
 
 \begin{figure}[h]
     \centering
-    \includegraphics[width=0.9\linewidth]{Q1.png}
+    \includegraphics[width=0.9\linewidth]{Q5b.png}
     \captionsetup{labelformat=empty}
-    \caption{Question 5}
+    \caption{Question 5: Selecting the officer's address to be modified.}
+\end{figure}
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.9\linewidth]{Q5c.png}
+    \captionsetup{labelformat=empty}
+    \caption{Question 5: Update the address.}
+\end{figure}
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.9\linewidth]{Q5d.png}
+    \captionsetup{labelformat=empty}
+    \caption{Question 5: Selecting the officer's address to see the modification.}
 \end{figure}
 
 \end{document}
