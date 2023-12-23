@@ -1,8 +1,5 @@
-# Purpose: This file is used to parse the data for the database from the csv files
 import os
 import pandas as pd
-import psycopg2
-from sqlalchemy import create_engine
 
 # Read csv files
 
@@ -15,51 +12,26 @@ for csv_file in csv_files:
 
 edges = csv.copy()
 
-# Function for parse data to the database
+
+# function to parse data and rename columns
+def data_parser(df_name, db_table_columns):
+    column_mapping = dict(zip(df_name.columns, db_table_columns))
+    df_name.rename(columns=column_mapping, inplace=True)
 
 
-def data_parser(df_name, db_table_columns, db_table_name):
-    try:
-        column_mapping = dict(zip(df_name.columns, db_table_columns))
-        df_name.rename(columns=column_mapping, inplace=True)
-        df_name.to_sql(db_table_name, engine, if_exists='append', index=False)
-        return print(f"Data successfully parsed to {db_table_name} table")
-    except Exception as e:
-        # print(f"Error: {e}") uncomment this line to see more of the error
-        return print(f"Data was not parsed to {db_table_name} table")
-
-
-# Database connection
-db_params = {
-    'host': 'localhost',
-    'port': 5432,
-    'user': 'postgres',
-    'password': 'useruser',
-    'database': 'postgres'
-}
-# Create a connection to the PostgreSQL database
-connection = psycopg2.connect(**db_params)
-# Create a SQLAlchemy engine
-engine = create_engine(
-    f'postgresql://{db_params["user"]}:{db_params["password"]}@{db_params["host"]}:{db_params["port"]}/{db_params["database"]}')
-connection.close()
-
-# Entities table
-# ! For entities table i had to replace 4 nan values in the name column
 entity["name"] = entity["name"].fillna(value="no_name")
 
 db_entity_columns = [
     'entity_id', 'name', 'jurisdiction', 'jurisdiction_description', 'country_code', 'country_name', 'incorporation_date', 'inactivation_date', 'struck_off_date', 'closed_date', 'ibc_ruc', 'status', 'company_type', 'service_provider', 'source_id', 'valid_until', 'note'
 ]
 
-data_parser(entity, db_entity_columns, "entities_2307_2325")
+data_parser(entity, db_entity_columns)
 
 # Roles table
 roles_table = sorted(edges.loc[edges['TYPE'] == 'officer_of']['link'].unique())
 roles_df = pd.DataFrame(roles_table, columns=["role_type"]).copy()
 roles_df.insert(0, 'role_id', range(1, 1 + len(roles_df)))
 roles_df = roles_df[["role_id", "role_type"]]
-roles_df.to_sql('roles_2307_2325', engine, if_exists='append', index=False)
 
 
 # Officers table
@@ -71,7 +43,7 @@ db_officer_columns = [
     'officer_id', 'name', 'country_code', 'country_name', 'source_id', 'valid_until', 'note'
 ]
 
-data_parser(officer, db_officer_columns, "officers_2307_2325")
+data_parser(officer, db_officer_columns)
 
 
 # Intermediaries table
@@ -80,7 +52,7 @@ db_inter_columns = [
     'intermediary_id', 'name', 'country_code', 'country_name', 'status', 'source_id', 'valid_until', 'note'
 ]
 
-data_parser(intermediary, db_inter_columns, "intermediaries_2307_2325")
+data_parser(intermediary, db_inter_columns)
 
 
 # Preprocessing edges table
@@ -100,9 +72,7 @@ officers_roles_entities.insert(
 db_ore_columns = [
     'officer_role_entity_id', 'officer_id', 'role_id', 'entity_id', 'start_date', 'end_date', 'source_id', 'valid_until'
 ]
-data_parser(officers_roles_entities, db_ore_columns,
-            "officers_roles_entities_2307_2325")
-
+data_parser(officers_roles_entities, db_ore_columns)
 # officer_role_officer table
 
 officers_roles_officers = tmp[tmp['END_ID'].astype(
@@ -112,8 +82,7 @@ officers_roles_officers.insert(
 db_oro_columns = [
     'officer_role_officer_id', 'officer_id_1', 'role_id', 'officer_id_2', 'start_date', 'end_date', 'source_id', 'valid_until'
 ]
-data_parser(officers_roles_officers, db_oro_columns,
-            "officers_roles_officers_2307_2325")
+data_parser(officers_roles_officers, db_oro_columns)
 
 # officer_role_intermediary table
 
@@ -124,8 +93,7 @@ officers_roles_intermediaries.insert(0, 'officer_role_intermediary_id', range(
 db_ori_columns = [
     'officer_role_intermediary_id', 'officer_id', 'role_id', 'intermediary_id', 'start_date', 'end_date', 'source_id', 'valid_until'
 ]
-data_parser(officers_roles_intermediaries, db_ori_columns,
-            "officers_roles_intermediaries_2307_2325")
+data_parser(officers_roles_intermediaries, db_ori_columns)
 
 
 # Intermediaries_entities table
@@ -139,7 +107,7 @@ inter_entity.insert(0, 'intermediary_entity_id',
 db_ie_columns = [
     'intermediary_entity_id', 'intermediary_id', 'entity_id', 'start_date', 'end_date', 'source_id', 'valid_until'
 ]
-data_parser(inter_entity, db_ie_columns, "intermediaries_entities_2307_2325")
+data_parser(inter_entity, db_ie_columns)
 
 
 # Addresses table
@@ -147,7 +115,7 @@ data_parser(inter_entity, db_ie_columns, "intermediaries_entities_2307_2325")
 db_address_columns = [
     'address_id', 'name', 'address', 'country_code', 'country_name', 'source_id', 'valid_until', 'note'
 ]
-data_parser(address, db_address_columns, "addresses_2307_2325")
+data_parser(address, db_address_columns)
 
 
 # Preprocessing for register_addresses
@@ -167,7 +135,7 @@ addresses_entities.insert(0, 'entity_address_id',
 db_ea_columns = [
     'entity_address_id', 'entity_id', 'address_id', 'start_date', 'end_date', 'source_id', 'valid_until'
 ]
-data_parser(addresses_entities, db_ea_columns, "entities_addresses_2307_2325")
+data_parser(addresses_entities, db_ea_columns)
 
 # Officers_address table
 
@@ -177,4 +145,32 @@ addresses_officers.insert(0, 'intermediary_entity_id',
 db_oa_columns = [
     'officer_address_id', 'officer_id', 'address_id', 'start_date', 'end_date', 'source_id', 'valid_until'
 ]
-data_parser(addresses_officers, db_oa_columns, "officers_addresses_2307_2325")
+data_parser(addresses_officers, db_oa_columns)
+
+
+# mapping DataFrames to table names
+df_table_mapping = {
+    'roles_df': 'roles_2307_2325',
+    'entity': 'entities_2307_2325',
+    'officer': 'officers_2307_2325',
+    'address': 'addresses_2307_2325',
+    'intermediary': 'intermediaries_2307_2325',
+    'officers_roles_entities': 'officers_roles_entities_2307_2325',
+    'officers_roles_officers': 'officers_roles_officers_2307_2325',
+    'officers_roles_intermediaries': 'officers_roles_intermediaries_2307_2325',
+    'inter_entity': 'intermediaries_entities_2307_2325',
+    'addresses_entities': 'entities_addresses_2307_2325',
+    'addresses_officers': 'officers_addresses_2307_2325'
+}
+# sql  output file name
+sql_file = '2307_2325_data.sql'
+
+with open(sql_file, 'w') as file:
+    for df_name, table_name in df_table_mapping.items():
+        df = globals()[df_name]
+        for index, row in df.iterrows():
+            row_values = ["NULL" if pd.isna(value) else "'" + str(value).replace(
+                "'", "''") + "'" if isinstance(value, str) else str(value) for value in row]
+            insert_statement = "INSERT INTO {} ({}) VALUES ({});\n".format(
+                table_name, ', '.join(df.columns), ', '.join(row_values))
+            file.write(insert_statement)
