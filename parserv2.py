@@ -1,8 +1,5 @@
 import os
 import pandas as pd
-import psycopg2
-from sqlalchemy import create_engine
-import argparse
 
 # Read csv files
 
@@ -16,6 +13,7 @@ for csv_file in csv_files:
 edges = csv.copy()
 
 
+# function to parse data and rename columns
 def data_parser(df_name, db_table_columns):
     column_mapping = dict(zip(df_name.columns, db_table_columns))
     df_name.rename(columns=column_mapping, inplace=True)
@@ -150,39 +148,29 @@ db_oa_columns = [
 data_parser(addresses_officers, db_oa_columns)
 
 
-parser = argparse.ArgumentParser(
-    description='Parse data and insert into a PostgreSQL database.')
-parser.add_argument('-H', '--host', required=True, help='Database host')
-parser.add_argument('-p', '--port', type=int,
-                    required=True, help='Database port')
-parser.add_argument('-U', '--user', required=True, help='Database user')
-parser.add_argument('-P', '--password', required=True,
-                    help='Database password')
-parser.add_argument('-d', '--database', required=True, help='Database name')
-
-args = parser.parse_args()
-
-# Database connection parameters
-db_params = {
-    'host': args.host,
-    'port': args.port,
-    'user': args.user,
-    'password': args.password,
-    'database': args.database
+# mapping DataFrames to table names
+df_table_mapping = {
+    'roles_df': 'roles_2307_2325',
+    'entity': 'entities_2307_2325',
+    'officer': 'officers_2307_2325',
+    'address': 'addresses_2307_2325',
+    'intermediary': 'intermediaries_2307_2325',
+    'officers_roles_entities': 'officers_roles_entities_2307_2325',
+    'officers_roles_officers': 'officers_roles_officers_2307_2325',
+    'officers_roles_intermediaries': 'officers_roles_intermediaries_2307_2325',
+    'inter_entity': 'intermediaries_entities_2307_2325',
+    'addresses_entities': 'entities_addresses_2307_2325',
+    'addresses_officers': 'officers_addresses_2307_2325'
 }
+# sql  output file name
+sql_file = '2307_2325_data.sql'
 
-connection = psycopg2.connect(**db_params)
-cursor = connection.cursor()
-
-
-# Uncomment the following lines to create the data.sql file
-# with open(sql_file, 'w') as file:
-#     for df_name, table_name in df_table_mapping.items():
-#         df = globals()[df_name]
-#         for index, row in df.iterrows():
-#             row_values = ["NULL" if pd.isna(value) else "'" + str(value).replace("'", "''") + "'" if isinstance(value, str) else str(value) for value in row]
-#             insert_statement = "INSERT INTO {} ({}) VALUES ({});\n".format(table_name, ', '.join(df.columns), ', '.join(row_values))
-#             file.write(insert_statement)
-
-# cursor.close()
-# connection.close()
+with open(sql_file, 'w') as file:
+    for df_name, table_name in df_table_mapping.items():
+        df = globals()[df_name]
+        for index, row in df.iterrows():
+            row_values = ["NULL" if pd.isna(value) else "'" + str(value).replace(
+                "'", "''") + "'" if isinstance(value, str) else str(value) for value in row]
+            insert_statement = "INSERT INTO {} ({}) VALUES ({});\n".format(
+                table_name, ', '.join(df.columns), ', '.join(row_values))
+            file.write(insert_statement)
