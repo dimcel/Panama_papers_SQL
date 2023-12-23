@@ -8,6 +8,7 @@ This script parses data from CSV files and inserts it into a PostgreSQL database
 
 - Python 3
 - PostgreSQL database
+- Python virtual enviroment
 
 ## Installation
 
@@ -33,19 +34,23 @@ This script parses data from CSV files and inserts it into a PostgreSQL database
 
 ## Files in the Same Folder
 
-- `create.sql`: SQL script for creating the database schema.
+- `queries.sql`: SQL script for creating the database schema.
 
-- `csv_folder/`: Place your CSV files in this folder.
+- `csv_panama_papers/`: Place your CSV files in this folder.
 
 ## Notes
 
-- Make sure to review and customize the `create.sql` script based on your requirements.
+- This repository provides two methods for using the parser:
 
-- The script will parse CSV files from the `csv_folder/` directory, so ensure the files are present and properly formatted.
+  1. **Automated Setup:**
 
-- If you encounter any issues or have questions, feel free to reach out to [your contact information].
+     - Run the `parser_automated.py` script after initializing the PostgreSQL database. Refer to the usage instructions for the code snippet.
+     - This automated process will create the necessary database schema and parse the data automatically.
 
-```
+  2. **Manual Setup:**
+     - Execute the `schema.sql` script to manually create the database schema.
+     - Run the `parser.py` script (as described in the usage section).
+     - This will generate a substantial `.sql` file named `data.sql` (approximately 400MB).
+     - Execute the generated `data.sql` file to insert the parsed data into the database.
 
-Replace `[your contact information]` with the appropriate contact details for users to reach out for support or questions.
-```
+Choose the method that best fits your requirements and workflow. If you opt for the automated setup, the entire process, including schema creation and data parsing, is handled in a single step. For manual setup, you have more control over the individual steps, allowing for customization or troubleshooting as needed.
