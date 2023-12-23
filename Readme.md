@@ -1,37 +1,26 @@
-# Master's Assignment in Data Management
+# Data Parsing and Database Insertion Script
 
-This repository contains all the materials related to my Master's assignment in Data Management. The assignment focuses on various aspects of managing, processing, and analyzing data.
+## Overview
 
-## Project Overview
+This script parses data from CSV files and inserts it into a PostgreSQL database. The data includes information about entities, officers, roles, addresses, intermediaries, and relationships between them.
 
-The project involves [briefly describe the project here].
+## Prerequisites
 
-## Files and Directories
+- Python 3
+- PostgreSQL database
 
-- `data/`: This directory contains all the data files used in this project.
-- `src/`: This directory contains all the source code files.
-- `docs/`: This directory contains all the documentation related to this project.
+## Installation
 
-## Setup and Installation
+1. Install the required Python packages:
 
-To set up and run this project, follow these steps:
-
-1. Clone this repository.
-2. Navigate to the project directory.
-3. [Add any other necessary steps here]
+   ```bash
+   pip install -r requirements.txt
+   ```
 
 ## Usage
 
-To use this project, [describe how to use the project or run the code here].
+Run the script with the following command:
 
-## Contributing
-
-Contributions are welcome. Please feel free to submit a pull request or open an issue.
-
-## License
-
-This project is licensed under the [License Name].
-
-## Contact
-
-If you have any questions or feedback, please feel free to contact me.
+```bash
+python parser.py -H <hostname> -p <port> -U <username> -P <password> -d <database>
+```
