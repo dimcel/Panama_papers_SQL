@@ -4,6 +4,8 @@
 
 This script parses data from CSV files and inserts it into a PostgreSQL database. The data includes information about entities, officers, roles, addresses, intermediaries, and relationships between them.
 
+Contact me for the sample CSV files i used.
+
 ## Prerequisites
 
 - Python 3
